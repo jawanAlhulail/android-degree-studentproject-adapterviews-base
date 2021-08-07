@@ -2,13 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:background="@color/colorAccent"
+        android:backgroundTint="#FF6464"
         app:layout_constraintBottom_toBottomOf="@+id/typeRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +122,7 @@
         android:layout_height="0dp"
         android:layout_below="@+id/titleTextView"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/colorPrimary"
         android:padding="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -140,7 +142,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_photo" />
+                android:src="@drawable/ic_photo"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/photoNoteEditText"
@@ -149,11 +152,23 @@
                 android:layout_below="@+id/photoImageView"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
+
                 android:background="@android:color/transparent"
                 android:gravity="top"
                 android:hint="@string/add_note_text"
                 android:padding="16dp" />
+
+            <ImageView
+                android:id="@+id/check_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/photoNoteEditText"
+                android:layout_alignEnd="@+id/photoNoteEditText"
+                android:layout_alignRight="@+id/photoNoteEditText"
+                android:layout_alignBottom="@+id/photoNoteEditText"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </RelativeLayout>
 
@@ -260,7 +275,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#F18181"
         android:padding="16dp"
+
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

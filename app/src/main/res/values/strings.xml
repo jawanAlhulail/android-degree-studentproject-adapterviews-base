@@ -3,4 +3,7 @@
     <string name="add_new_item_description">يمكنك  إضافة ملاحظة إلى القائمة و اختيار نوع ولون الملاحظة.</string>
     <string name="add">اضافة</string>
     <string name="add_note_text">أضف ملاحظة</string>
+    <string name="select_photo">اختر صوره</string>
+    <string name="read_permission_needed_to_access_files">صلاحية الوصول الى الملفات مطلوبه لقرائة الصور و الاصوات من جهازك.</string>
+    <string name="failed_to_get_image">فشل في اختيار الصوره</string>
 </resources>
