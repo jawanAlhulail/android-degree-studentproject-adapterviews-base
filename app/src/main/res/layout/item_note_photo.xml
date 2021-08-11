@@ -10,4 +10,11 @@
     android:maxHeight="150dp"
     android:padding="4dp"
     />
+    <TextView
+        android:id="@+id/Note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textColor="#000"/>
 </androidx.cardview.widget.CardView>

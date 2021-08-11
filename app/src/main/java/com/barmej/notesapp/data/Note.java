@@ -1,20 +1,15 @@
 package com.barmej.notesapp.data;
 
-import android.widget.EditText;
-import android.widget.ImageView;
-
-import java.util.ArrayList;
-
 public class Note {
-private String ideaNote;
+
+    private String ideaNote;
 
 
-public Note(String ideaNote){
-    this.ideaNote = ideaNote;
-}
+    public Note(String ideaNote) {
+        this.ideaNote = ideaNote;
+    }
 
     public Note() {
-        
     }
 
 

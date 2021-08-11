@@ -115,6 +115,8 @@
 
     </RadioGroup>
 
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewPhoto"
         style="@style/Widget.MaterialComponents.CardView"
@@ -146,7 +148,7 @@
                 android:visibility="gone" />
 
             <EditText
-                android:id="@+id/photoNoteEditText"
+                android:id="@+id/noteEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photoImageView"
@@ -158,104 +160,33 @@
                 android:hint="@string/add_note_text"
                 android:padding="16dp" />
 
-            <ImageView
+<!--            <ImageView-->
+<!--                android:id="@+id/check_mark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignBaseline="@+id/noteEditText"-->
+<!--                android:layout_alignEnd="@+id/noteEditText"-->
+<!--                android:layout_alignRight="@+id/noteEditText"-->
+<!--                android:layout_alignBottom="@+id/noteEditText"-->
+<!--                android:src="@drawable/ic_check"-->
+<!--                android:visibility="gone"-->
+<!--                tools:visibility="visible" />-->
+            <CheckBox
                 android:id="@+id/check_mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/photoNoteEditText"
-                android:layout_alignEnd="@+id/photoNoteEditText"
-                android:layout_alignRight="@+id/photoNoteEditText"
-                android:layout_alignBottom="@+id/photoNoteEditText"
-                android:src="@drawable/ic_check"
+                android:checked="true"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                android:layout_alignBaseline="@+id/noteEditText"
+                android:layout_alignEnd="@+id/noteEditText"
+                android:layout_alignRight="@+id/noteEditText"
+                android:layout_alignBottom="@+id/noteEditText"/>
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewNote"
-        style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_below="@+id/titleTextView"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/blue"
-        android:padding="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/noteEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:background="@android:color/transparent"
-                android:gravity="top"
-                android:hint="@string/add_note_text" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewCheckNote"
-        style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_below="@+id/titleTextView"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/yellow"
-        android:padding="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/checkNoteEditText"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:gravity="top"
-                android:hint="@string/add_note_text"
-                app:layout_constraintBottom_toTopOf="@+id/checkNoteCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <CheckBox
-                android:id="@+id/checkNoteCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
 
     <androidx.constraintlayout.widget.Guideline

@@ -1,22 +1,17 @@
 package com.barmej.notesapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.barmej.notesapp.data.Note;
 import com.barmej.notesapp.data.PhotoNote;
@@ -32,13 +27,23 @@ public class MainActivity extends AppCompatActivity {
  private NoteAdapter mAdapter;
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    Menu mMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recycler_view_photos);
-        mAdapter = new NoteAdapter(mNotes);
+        mAdapter = new NoteAdapter(mNotes, new OnClickItem() {
+            @Override
+            public void onClickItem(int position) {
+              showNoteDetails(position);
+            }
+        }, new OnLongClickItem() {
+            @Override
+            public void onLongClickItem(int position) {
+                removeNote(position);
+            }
+        });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2 ,1);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -61,18 +66,21 @@ startActivityForResult(intent, ADD_NOTE);
             if(resultCode == RESULT_OK && data != null){
                 Uri photoNoteUri = data.getParcelableExtra(Constants.EXTRA_PHOTO);
                 String ideaNote = data.getStringExtra(Constants.EXTRA_TEXT);
-                if(ideaNote != null){
+                System.out.println(photoNoteUri);
+                if(photoNoteUri != null){
+                    PhotoNote photoNote = new PhotoNote(ideaNote,photoNoteUri);
+                    addItem(photoNote);
+                    System.out.println("photo instere");
+               }
+                else {
                     Note note = new Note(ideaNote);
+                    System.out.println("onResult ");
                     addItem(note);
-                    Log.i(TAG,note.getIdeaNote());
-                    }
-                    if(photoNoteUri != null){
-                        PhotoNote photoNote = new PhotoNote(ideaNote,photoNoteUri);
-                        addItem(photoNote);
-                        System.out.println("photo inserted");
-                    }
+                }
+
+
             }else {
-                Toast.makeText(this, "لم يتم اضافة نص", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "لم يتم اضافة مذكره", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -80,6 +88,25 @@ startActivityForResult(intent, ADD_NOTE);
         mNotes.add(note);
         mAdapter.notifyItemInserted(mNotes.size() - 1);
     }
+
+private void showNoteDetails(int position){
+
+}
+private void removeNote(final int position){
+    AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage("هل انت متأكد من ازالة العنصر من القائمه ").setPositiveButton("تأكيد الازاله", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            mNotes.remove(position);
+            mAdapter.notifyItemRemoved(position);
+        }
+    }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            dialogInterface.dismiss();
+        }
+    }).create();
+    alertDialog.show();
+}
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        this.mMenu = menu;
