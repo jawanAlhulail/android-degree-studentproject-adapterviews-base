@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -21,10 +23,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_NOTE = 101;
     private static final int ADD_PHOTO = 102;
-
+private CheckBox checkMark;
     private RecyclerView mRecyclerView;
  private ArrayList<Note> mNotes = new ArrayList<>();
  private NoteAdapter mAdapter;
+    RecyclerView.LayoutManager mListLayoutManager;
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
@@ -32,8 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkMark = findViewById(R.id.check_box_item);
         mRecyclerView = findViewById(R.id.recycler_view_photos);
         mAdapter = new NoteAdapter(mNotes, new OnClickItem() {
+
             @Override
             public void onClickItem(int position) {
               showNoteDetails(position);
@@ -44,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 removeNote(position);
             }
         });
+        mListLayoutManager = new LinearLayoutManager(this);
+
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2 ,1);
-        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        mRecyclerView.setLayoutManager(mListLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
         findViewById(R.id.floating_button_add).setOnClickListener(new View.OnClickListener() {
@@ -66,6 +74,7 @@ startActivityForResult(intent, ADD_NOTE);
             if(resultCode == RESULT_OK && data != null){
                 Uri photoNoteUri = data.getParcelableExtra(Constants.EXTRA_PHOTO);
                 String ideaNote = data.getStringExtra(Constants.EXTRA_TEXT);
+                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,false );
                 System.out.println(photoNoteUri);
                 if(photoNoteUri != null){
                     PhotoNote photoNote = new PhotoNote(ideaNote,photoNoteUri);

@@ -134,5 +134,6 @@ private int position;
             checkBox = itemView.findViewById(R.id.check_box_item);
         }
 
+
     }
 }

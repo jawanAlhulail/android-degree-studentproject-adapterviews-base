@@ -172,7 +172,7 @@
 <!--                android:visibility="gone"-->
 <!--                tools:visibility="visible" />-->
             <CheckBox
-                android:id="@+id/check_mark"
+                android:id="@+id/check_box_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"

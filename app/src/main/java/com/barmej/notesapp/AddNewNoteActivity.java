@@ -35,7 +35,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_note);
         editIv = findViewById(R.id.noteEditText);
         newPhotoIV = findViewById(R.id.photoImageView);
-        checkMark = findViewById(R.id.check_mark);
+        checkMark = findViewById(R.id.check_box_item);
         findViewById(R.id.radioButton6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,9 +112,10 @@ public class AddNewNoteActivity extends AppCompatActivity {
     private void submit() {
         Intent intent = new Intent();
         String temp = editIv.getText().toString();
+        Boolean checked = checkMark.isChecked();
         intent.putExtra(Constants.EXTRA_PHOTO, mSelectedPhotoUri);
         System.out.println("AddNewNoteActivity " + mSelectedPhotoUri);
-
+        intent.putExtra(Constants.EXTRA_CHECK, checked);
         intent.putExtra(Constants.EXTRA_TEXT, temp);
         setResult(RESULT_OK, intent);
         finish();
