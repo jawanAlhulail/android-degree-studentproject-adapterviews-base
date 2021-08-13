@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barmej.notesapp.data.Note;
@@ -82,13 +83,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder implements Serializable {
-
+        ConstraintLayout consNote;
         private TextView noteIv;
 private int position;
 
         public NoteViewHolder(@NonNull View itemView, final OnClickItem mItemClickListener, final OnLongClickItem mItemLongClickListener) {
             super(itemView);
             noteIv = itemView.findViewById(R.id.view_note);
+            consNote = itemView.findViewById(R.id.cons_layout_note);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -107,6 +109,7 @@ private int position;
 
         void bind(Note note) {
             noteIv.setText(note.getIdeaNote());
+            noteIv.setTextColor(note.getColor());
         }
 
     }
@@ -115,9 +118,11 @@ private int position;
 
         ImageView imageView;
 
+
         public PhotoViewHolder(@NonNull View itemView, OnClickItem mItemClickListener, OnLongClickItem mItemLongClickListener) {
             super(itemView, mItemClickListener, mItemLongClickListener);
             imageView = itemView.findViewById(R.id.image_view_list_item_photo);
+
         }
 
         void bind(Note note) {
@@ -133,7 +138,16 @@ private int position;
             super(itemView, mItemClickListener, mItemLongClickListener);
             checkBox = itemView.findViewById(R.id.check_box_item);
         }
+//        void bind(Note note) {
+//            final CheckNote checkNote = (CheckNote) note;
+//checkBox.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View view) {
+//        checkNote.setChecked(checkBox.isChecked());
+//    }
+//});
 
+     //   }
 
     }
 }

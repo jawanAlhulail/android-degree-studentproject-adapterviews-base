@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,8 +20,7 @@ import androidx.core.app.ActivityCompat;
 
 public class AddNewNoteActivity extends AppCompatActivity {
     EditText editIv;
-    RadioButton noteSelectRB;
-    RadioButton photoSelectRB;
+    int chosenColor;
     Uri mSelectedPhotoUri;
     CheckBox checkMark;
     ImageView newPhotoIV;
@@ -65,7 +63,29 @@ public class AddNewNoteActivity extends AppCompatActivity {
                 submit();
             }
         });
+        findViewById(R.id.blackNote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editIv.setBackgroundColor(getResources().getColor(R.color.black));
+                chosenColor = getResources().getColor(R.color.black);
+            }
+        });
+        findViewById(R.id.purpleNote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editIv.setBackgroundColor(getResources().getColor(R.color.purple));
+                chosenColor = getResources().getColor(R.color.purple);
 
+            }
+        });
+        findViewById(R.id.redNote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editIv.setBackgroundColor(getResources().getColor(R.color.red));
+                chosenColor = getResources().getColor(R.color.red);
+
+            }
+        });
 
     }
 
@@ -110,11 +130,14 @@ public class AddNewNoteActivity extends AppCompatActivity {
     }
 
     private void submit() {
+        int color = editIv.getDrawingCacheBackgroundColor();
+        System.out.println(color);
         Intent intent = new Intent();
         String temp = editIv.getText().toString();
         Boolean checked = checkMark.isChecked();
         intent.putExtra(Constants.EXTRA_PHOTO, mSelectedPhotoUri);
         System.out.println("AddNewNoteActivity " + mSelectedPhotoUri);
+        intent.putExtra(Constants.EXTRA_COLOR, chosenColor);
         intent.putExtra(Constants.EXTRA_CHECK, checked);
         intent.putExtra(Constants.EXTRA_TEXT, temp);
         setResult(RESULT_OK, intent);

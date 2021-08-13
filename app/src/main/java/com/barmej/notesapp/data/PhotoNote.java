@@ -7,12 +7,12 @@ import android.os.Parcelable;
 public class PhotoNote extends Note implements Parcelable {
 
 private Uri image;
-    public PhotoNote(String note, Uri selectedImage){
-        super(note);
+    public PhotoNote(String note,int color, Uri selectedImage){
+        super(note , color);
         image = selectedImage;
     }
 
-    private PhotoNote(Parcel in) {
+    protected PhotoNote(Parcel in) {
         image = in.readParcelable(Uri.class.getClassLoader());
     }
 

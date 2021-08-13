@@ -1,13 +1,16 @@
 package com.barmej.notesapp.data;
 
 public class CheckNote extends Note {
-private Boolean checkBox;
-    public CheckNote(String ideaNote, Boolean checkBox) {
-        super(ideaNote);
-        this.checkBox = checkBox;
+private Boolean check;
+    public CheckNote(String ideaNote,int color, Boolean checked) {
+        super(ideaNote,color);
+        this.check = checked;
+    }
+    public Boolean isChecked() {
+        return check;
     }
 
-    public Boolean getCheckBox() {
-        return checkBox;
+    public void setChecked(boolean checked) {
+        this.check = checked;
     }
 }

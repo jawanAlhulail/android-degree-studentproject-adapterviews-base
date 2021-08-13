@@ -23,9 +23,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_NOTE = 101;
     private static final int ADD_PHOTO = 102;
+    int selectedColor;
 private CheckBox checkMark;
     private RecyclerView mRecyclerView;
- private ArrayList<Note> mNotes = new ArrayList<>();
+ static ArrayList<Note> mNotes = new ArrayList<>();
  private NoteAdapter mAdapter;
     RecyclerView.LayoutManager mListLayoutManager;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -42,6 +43,7 @@ private CheckBox checkMark;
 
             @Override
             public void onClickItem(int position) {
+                System.out.println(mNotes.get(position));
               showNoteDetails(position);
             }
         }, new OnLongClickItem() {
@@ -53,7 +55,7 @@ private CheckBox checkMark;
         mListLayoutManager = new LinearLayoutManager(this);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2 ,1);
-        mRecyclerView.setLayoutManager(mListLayoutManager);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
         findViewById(R.id.floating_button_add).setOnClickListener(new View.OnClickListener() {
@@ -74,15 +76,27 @@ startActivityForResult(intent, ADD_NOTE);
             if(resultCode == RESULT_OK && data != null){
                 Uri photoNoteUri = data.getParcelableExtra(Constants.EXTRA_PHOTO);
                 String ideaNote = data.getStringExtra(Constants.EXTRA_TEXT);
-                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,false );
-                System.out.println(photoNoteUri);
+                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,true );
+                int color = data.getIntExtra(Constants.EXTRA_COLOR, 0);
+                switch (color){
+                    case 0:
+                        selectedColor = getResources().getColor(R.color.black);
+                        case 1:
+                        selectedColor = getResources().getColor(R.color.purple);
+                    case 2:
+                        selectedColor = getResources().getColor(R.color.red);
+
+
+
+                }
+                System.out.println(color);
                 if(photoNoteUri != null){
-                    PhotoNote photoNote = new PhotoNote(ideaNote,photoNoteUri);
+                    PhotoNote photoNote = new PhotoNote(ideaNote,selectedColor,photoNoteUri);
                     addItem(photoNote);
                     System.out.println("photo instere");
                }
                 else {
-                    Note note = new Note(ideaNote);
+                    Note note = new Note(ideaNote, selectedColor);
                     System.out.println("onResult ");
                     addItem(note);
                 }
@@ -99,7 +113,10 @@ startActivityForResult(intent, ADD_NOTE);
     }
 
 private void showNoteDetails(int position){
+Intent intent = new Intent(this, DetailActivity.class);
 
+intent.putExtra("note id", position);
+startActivity(intent);
 }
 private void removeNote(final int position){
     AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage("هل انت متأكد من ازالة العنصر من القائمه ").setPositiveButton("تأكيد الازاله", new DialogInterface.OnClickListener() {

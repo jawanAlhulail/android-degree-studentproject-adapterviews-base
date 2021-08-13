@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="#202020">
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:background="@color/colorAccent"
-        android:backgroundTint="#FF6464"
+        android:backgroundTint="#202020"
         app:layout_constraintBottom_toBottomOf="@+id/typeRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +29,7 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:text="@string/add_new_item_description"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,16 +48,17 @@
         app:layout_constraintTop_toBottomOf="@+id/titleTextView">
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/blackNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/black"
             android:button="@drawable/radio_button_blue"
             android:checked="true" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/purpleNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -64,7 +67,7 @@
             android:checked="false" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/redNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -116,7 +119,6 @@
     </RadioGroup>
 
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewPhoto"
         style="@style/Widget.MaterialComponents.CardView"
@@ -154,39 +156,37 @@
                 android:layout_below="@+id/photoImageView"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-
+android:textColor="@color/white"
                 android:background="@android:color/transparent"
                 android:gravity="top"
                 android:hint="@string/add_note_text"
                 android:padding="16dp" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/check_mark"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignBaseline="@+id/noteEditText"-->
-<!--                android:layout_alignEnd="@+id/noteEditText"-->
-<!--                android:layout_alignRight="@+id/noteEditText"-->
-<!--                android:layout_alignBottom="@+id/noteEditText"-->
-<!--                android:src="@drawable/ic_check"-->
-<!--                android:visibility="gone"-->
-<!--                tools:visibility="visible" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/check_mark"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignBaseline="@+id/noteEditText"-->
+            <!--                android:layout_alignEnd="@+id/noteEditText"-->
+            <!--                android:layout_alignRight="@+id/noteEditText"-->
+            <!--                android:layout_alignBottom="@+id/noteEditText"-->
+            <!--                android:src="@drawable/ic_check"-->
+            <!--                android:visibility="gone"-->
+            <!--                tools:visibility="visible" />-->
             <CheckBox
                 android:id="@+id/check_box_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:visibility="gone"
                 android:layout_alignBaseline="@+id/noteEditText"
                 android:layout_alignEnd="@+id/noteEditText"
                 android:layout_alignRight="@+id/noteEditText"
-                android:layout_alignBottom="@+id/noteEditText"/>
+                android:layout_alignBottom="@+id/noteEditText"
+                android:checked="true"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -206,7 +206,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="#F18181"
+        android:backgroundTint="@android:color/holo_red_light"
         android:padding="16dp"
 
         android:text="@string/add"
