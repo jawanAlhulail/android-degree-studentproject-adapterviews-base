@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,78 +18,52 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class AddNewNoteActivity extends AppCompatActivity {
-    EditText editIv;
-    int chosenColor;
-    Uri mSelectedPhotoUri;
-    CheckBox checkMark;
-    ImageView newPhotoIV;
-    String checkNoteSelected;
+public class NotePhotoDetailsActivity extends AppCompatActivity {
     private static final int READ_PHOTO_FROM_GALLERY_PERMISSION = 130;
     private static final int PICK_IMAGE = 120;
-
+    Uri mNewSelectedPhotoUri;
+        ImageView imageView;
+    EditText editText;
+    Button cancelBtn;
+    Button saveBtn;
+    int noteId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_note);
-        editIv = findViewById(R.id.noteEditText);
-        newPhotoIV = findViewById(R.id.photoImageView);
-        checkMark = findViewById(R.id.check_box);
-        findViewById(R.id.radioButton6).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newPhotoIV.setVisibility(View.GONE);
-                checkMark.setVisibility(View.INVISIBLE);
-            }
+        setContentView(R.layout.activity_note_photo_details);
+        imageView = findViewById(R.id.photoImageView);
 
-        });
-        findViewById(R.id.radioButton5).setOnClickListener(new View.OnClickListener() {
+        editText = findViewById(R.id.noteEditText);
+        cancelBtn = findViewById(R.id.cancelBtn);
+        saveBtn = findViewById(R.id.saveBtn);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newPhotoIV.setVisibility(View.GONE);
-                checkMark.setVisibility(View.VISIBLE);
-                checkNoteSelected = "CHECK_NOTE_SELECTED";
-            }
-        });
-        findViewById(R.id.radioButton4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newPhotoIV.setVisibility(View.VISIBLE);
-                checkMark.setVisibility(View.INVISIBLE);
                 selectPhoto();
             }
         });
-        findViewById(R.id.button_submit).setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submit();
+                saveNewNote();
             }
         });
-        findViewById(R.id.blackNote).setOnClickListener(new View.OnClickListener() {
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editIv.setBackgroundColor(getResources().getColor(R.color.black));
-                chosenColor = 0;
+                finish();
             }
         });
-        findViewById(R.id.purpleNote).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editIv.setBackgroundColor(getResources().getColor(R.color.purple));
-                chosenColor = 1;
-            }
-        });
-        findViewById(R.id.redNote).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editIv.setBackgroundColor(getResources().getColor(R.color.red));
-                chosenColor = 2;
+        Intent intent = getIntent();
+        noteId = intent.getIntExtra("note id", -1);
+        Uri existedPhoto = intent.getParcelableExtra("photo note");
+        if (noteId != -1) {
 
-            }
-        });
+            imageView.setImageURI(existedPhoto);
+            editText.setText(MainActivity.mNotes.get(noteId).getIdeaNote());
 
+        }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -126,26 +100,19 @@ public class AddNewNoteActivity extends AppCompatActivity {
     }
 
     private void setSelectedPhoto(Uri data) {
-        newPhotoIV.setImageURI(data);
-        mSelectedPhotoUri = data;
+        imageView.setImageURI(data);
+        mNewSelectedPhotoUri = data;
     }
 
-    private void submit() {
-        int color = editIv.getDrawingCacheBackgroundColor();
-        System.out.println(color);
+    private void saveNewNote(){
+        String newText = editText.getText().toString();
         Intent intent = new Intent();
-        String temp = editIv.getText().toString();
-        Boolean checked = checkMark.isChecked();
-        intent.putExtra(Constants.EXTRA_PHOTO, mSelectedPhotoUri);
-        System.out.println("AddNewNoteActivity check " + checked);
-        intent.putExtra(Constants.EXTRA_COLOR, chosenColor);
-        intent.putExtra(Constants.EXTRA_CHECK, checked);
-        intent.putExtra(Constants.EXTRA_CHECK_SELECTED, checkNoteSelected);
-        intent.putExtra(Constants.EXTRA_TEXT, temp);
+        intent.putExtra(Constants.UPDATED_PHOTO, mNewSelectedPhotoUri);
+        intent.putExtra(Constants.UPDATED_NOTE, newText);
+        intent.putExtra("updated note id", noteId);
         setResult(RESULT_OK, intent);
         finish();
     }
-
     private void firePickPhotoIntent() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);

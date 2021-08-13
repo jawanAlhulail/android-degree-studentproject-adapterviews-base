@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.barmej.notesapp.data.CheckNote;
 import com.barmej.notesapp.data.Note;
 import com.barmej.notesapp.data.PhotoNote;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_NOTE = 101;
-    private static final int ADD_PHOTO = 102;
+    private static final int EDIT_NOTE = 102;
     Drawable selectedColor;
 private CheckBox checkMark;
     private RecyclerView mRecyclerView;
@@ -38,7 +39,7 @@ private CheckBox checkMark;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkMark = findViewById(R.id.check_box_item);
+        checkMark = findViewById(R.id.check_box);
         mRecyclerView = findViewById(R.id.recycler_view_photos);
         mAdapter = new NoteAdapter(mNotes, new OnClickItem() {
 
@@ -77,7 +78,9 @@ startActivityForResult(intent, ADD_NOTE);
             if(resultCode == RESULT_OK && data != null){
                 Uri photoNoteUri = data.getParcelableExtra(Constants.EXTRA_PHOTO);
                 String ideaNote = data.getStringExtra(Constants.EXTRA_TEXT);
-//                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,true );
+                Boolean checked = data.getExtras().getBoolean(Constants.EXTRA_CHECK, false);
+                System.out.println("main check" + checked);
+                String checkNoteSelected = data.getStringExtra(Constants.EXTRA_CHECK_SELECTED);
                 int color = data.getIntExtra(Constants.EXTRA_COLOR, 1);
                 System.out.println("main activity color" + color);
                 switch (color){
@@ -99,7 +102,11 @@ startActivityForResult(intent, ADD_NOTE);
                     PhotoNote photoNote = new PhotoNote(ideaNote,selectedColor,photoNoteUri);
                     addItem(photoNote);
                     System.out.println("photo instere");
-               }
+               }else if(checkNoteSelected != null){
+                    CheckNote checkNote = new CheckNote(ideaNote, selectedColor, checked);
+                    addItem(checkNote);
+                    System.out.println("check instere");
+                }
                 else {
                     Note note = new Note(ideaNote, selectedColor);
                     System.out.println("onResult ");
@@ -110,6 +117,25 @@ startActivityForResult(intent, ADD_NOTE);
             }else {
                 Toast.makeText(this, "لم يتم اضافة مذكره", Toast.LENGTH_SHORT).show();
             }
+        }else if(requestCode == EDIT_NOTE){
+            if(resultCode == RESULT_OK){
+                Uri newPhotoUri = data.getParcelableExtra(Constants.UPDATED_PHOTO);
+                String updatedNote = data.getStringExtra(Constants.UPDATED_NOTE);
+                int position = data.getExtras().getInt("updated note id");
+
+                Note note = mNotes.get(position);
+                if (note instanceof PhotoNote){
+                    PhotoNote photoNote = (PhotoNote) note;
+                    photoNote.setImage(newPhotoUri);
+                    note.setIdeaNote(updatedNote);
+                    mAdapter.notifyItemChanged(position);
+                }else{
+                    note.setIdeaNote(updatedNote);
+                    mAdapter.notifyItemChanged(position);
+                }
+
+            }
+
         }
     }
     private void addItem(Note note){
@@ -118,10 +144,21 @@ startActivityForResult(intent, ADD_NOTE);
     }
 
 private void showNoteDetails(int position){
-Intent intent = new Intent(this, DetailActivity.class);
+        Note note = mNotes.get(position);
+        Intent intent;
+        if(note instanceof PhotoNote){
+            PhotoNote photoNote = (PhotoNote) note;
+            intent = new Intent(this, NotePhotoDetailsActivity.class);
+            intent.putExtra("photo note",photoNote.getImage());
+            intent.putExtra("note id", position);
+        }else{
+            intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("note id", position);
+        }
 
-intent.putExtra("note id", position);
-startActivity(intent);
+
+
+startActivityForResult(intent, EDIT_NOTE);
 }
 private void removeNote(final int position){
     AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage("هل انت متأكد من ازالة العنصر من القائمه ").setPositiveButton("تأكيد الازاله", new DialogInterface.OnClickListener() {

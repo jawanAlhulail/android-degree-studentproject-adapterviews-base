@@ -1,5 +1,6 @@
 package com.barmej.notesapp;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barmej.notesapp.data.CheckNote;
 import com.barmej.notesapp.data.Note;
 import com.barmej.notesapp.data.PhotoNote;
 
@@ -37,6 +39,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         Note note = mItem.get(position);
         if(note instanceof PhotoNote) {
             return NOTE_PHOTO;
+        }else if(note instanceof CheckNote){
+            return NOTE_CHECK;
         } else {
             return NOTE_TEXT;
         }
@@ -134,20 +138,31 @@ private int position;
     }
     static class CheckNoteViewHolder extends NoteViewHolder implements Serializable {
             CheckBox checkBox;
+            Drawable green;
         public CheckNoteViewHolder(@NonNull View itemView, OnClickItem mItemClickListener, OnLongClickItem mItemLongClickListener) {
             super(itemView, mItemClickListener, mItemLongClickListener);
             checkBox = itemView.findViewById(R.id.check_box_item);
+            green = itemView.getResources().getDrawable(R.drawable.done_note);
         }
-//        void bind(Note note) {
-//            final CheckNote checkNote = (CheckNote) note;
-//checkBox.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View view) {
-//        checkNote.setChecked(checkBox.isChecked());
-//    }
-//});
+        void bind(Note note) {
+            super.bind(note);
+            final CheckNote checkNote = (CheckNote) note;
+            checkBox.setChecked(checkNote.getChecked());
 
-     //   }
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(checkBox.isChecked()){
+                        consNote.setBackground(green);
+                    }else{
+                        consNote.setBackground(checkNote.getColor());
+                    }
+
+                }
+            });
+
+
+        }
 
     }
 }

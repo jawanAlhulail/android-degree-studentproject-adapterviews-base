@@ -174,14 +174,16 @@ android:textColor="@color/white"
             <!--                android:visibility="gone"-->
             <!--                tools:visibility="visible" />-->
             <CheckBox
-                android:id="@+id/check_box_item"
+                android:id="@+id/check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/noteEditText"
                 android:layout_alignEnd="@+id/noteEditText"
                 android:layout_alignRight="@+id/noteEditText"
                 android:layout_alignBottom="@+id/noteEditText"
-                android:checked="true"
+                android:buttonTint="#84EF81"
+
+                android:checked="false"
                 android:visibility="gone" />
 
         </RelativeLayout>

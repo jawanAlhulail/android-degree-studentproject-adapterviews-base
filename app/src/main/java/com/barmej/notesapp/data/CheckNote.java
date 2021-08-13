@@ -8,11 +8,11 @@ private Boolean check;
         super(ideaNote,color);
         this.check = checked;
     }
-    public Boolean isChecked() {
+    public Boolean getChecked() {
         return check;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(Boolean checked) {
         this.check = checked;
     }
 }

@@ -33,6 +33,9 @@ private Uri image;
         return image;
     }
 
+    public void setImage(Uri image) {
+        this.image = image;
+    }
 
     @Override
     public int describeContents() {
