@@ -109,7 +109,7 @@ private int position;
 
         void bind(Note note) {
             noteIv.setText(note.getIdeaNote());
-            noteIv.setTextColor(note.getColor());
+            consNote.setBackground(note.getColor());
         }
 
     }

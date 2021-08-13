@@ -2,6 +2,7 @@ package com.barmej.notesapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_NOTE = 101;
     private static final int ADD_PHOTO = 102;
-    int selectedColor;
+    Drawable selectedColor;
 private CheckBox checkMark;
     private RecyclerView mRecyclerView;
  static ArrayList<Note> mNotes = new ArrayList<>();
@@ -76,15 +77,19 @@ startActivityForResult(intent, ADD_NOTE);
             if(resultCode == RESULT_OK && data != null){
                 Uri photoNoteUri = data.getParcelableExtra(Constants.EXTRA_PHOTO);
                 String ideaNote = data.getStringExtra(Constants.EXTRA_TEXT);
-                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,true );
-                int color = data.getIntExtra(Constants.EXTRA_COLOR, 0);
+//                Boolean checkBox = data.getBooleanExtra(Constants.EXTRA_CHECK,true );
+                int color = data.getIntExtra(Constants.EXTRA_COLOR, 1);
+                System.out.println("main activity color" + color);
                 switch (color){
                     case 0:
-                        selectedColor = getResources().getColor(R.color.black);
-                        case 1:
-                        selectedColor = getResources().getColor(R.color.purple);
+                        selectedColor = getResources().getDrawable(R.drawable.note_border);
+                        break;
+                    case 1:
+                        selectedColor = getResources().getDrawable(R.drawable.note_border_purple);
+                        break;
                     case 2:
-                        selectedColor = getResources().getColor(R.color.red);
+                        selectedColor = getResources().getDrawable(R.drawable.note_border_red);
+                        break;
 
 
 

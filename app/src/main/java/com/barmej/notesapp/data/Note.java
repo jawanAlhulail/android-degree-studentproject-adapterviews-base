@@ -1,11 +1,13 @@
 package com.barmej.notesapp.data;
 
+import android.graphics.drawable.Drawable;
+
 public class Note {
 
     private String ideaNote;
-    private int color;
+    private Drawable color;
 
-    public Note(String ideaNote, int color) {
+    public Note(String ideaNote, Drawable color) {
         this.ideaNote = ideaNote;
         this.color = color;
     }
@@ -13,11 +15,11 @@ public class Note {
     public Note() {
     }
 
-    public void setColor(int color) {
+    public void setColor(Drawable color) {
         this.color = color;
     }
 
-    public int getColor() {
+    public Drawable getColor() {
         return color;
     }
 

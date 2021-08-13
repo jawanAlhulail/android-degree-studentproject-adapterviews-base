@@ -67,22 +67,21 @@ public class AddNewNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 editIv.setBackgroundColor(getResources().getColor(R.color.black));
-                chosenColor = getResources().getColor(R.color.black);
+                chosenColor = 0;
             }
         });
         findViewById(R.id.purpleNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editIv.setBackgroundColor(getResources().getColor(R.color.purple));
-                chosenColor = getResources().getColor(R.color.purple);
-
+                chosenColor = 1;
             }
         });
         findViewById(R.id.redNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editIv.setBackgroundColor(getResources().getColor(R.color.red));
-                chosenColor = getResources().getColor(R.color.red);
+                chosenColor = 2;
 
             }
         });

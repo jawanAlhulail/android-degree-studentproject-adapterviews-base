@@ -1,5 +1,6 @@
 package com.barmej.notesapp.data;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +8,7 @@ import android.os.Parcelable;
 public class PhotoNote extends Note implements Parcelable {
 
 private Uri image;
-    public PhotoNote(String note,int color, Uri selectedImage){
+    public PhotoNote(String note, Drawable color, Uri selectedImage){
         super(note , color);
         image = selectedImage;
     }
