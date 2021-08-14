@@ -142,8 +142,13 @@ public class AddNewNoteActivity extends AppCompatActivity {
         intent.putExtra(Constants.EXTRA_CHECK, checked);
         intent.putExtra(Constants.EXTRA_CHECK_SELECTED, checkNoteSelected);
         intent.putExtra(Constants.EXTRA_TEXT, temp);
-        setResult(RESULT_OK, intent);
-        finish();
+        if(temp.isEmpty()){
+            Toast.makeText(this, "يرجى اضافة نص", Toast.LENGTH_SHORT).show();
+        }else{
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
     }
 
     private void firePickPhotoIntent() {

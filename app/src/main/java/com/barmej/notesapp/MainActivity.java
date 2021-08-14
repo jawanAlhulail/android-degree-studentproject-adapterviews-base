@@ -1,7 +1,9 @@
 package com.barmej.notesapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.barmej.notesapp.data.Note;
 import com.barmej.notesapp.data.PhotoNote;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_NOTE = 101;
@@ -38,7 +41,6 @@ private CheckBox checkMark;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         checkMark = findViewById(R.id.check_box);
         mRecyclerView = findViewById(R.id.recycler_view_photos);
         mAdapter = new NoteAdapter(mNotes, new OnClickItem() {
@@ -93,9 +95,6 @@ startActivityForResult(intent, ADD_NOTE);
                     case 2:
                         selectedColor = getResources().getDrawable(R.drawable.note_border_red);
                         break;
-
-
-
                 }
                 System.out.println(color);
                 if(photoNoteUri != null){
@@ -122,7 +121,18 @@ startActivityForResult(intent, ADD_NOTE);
                 Uri newPhotoUri = data.getParcelableExtra(Constants.UPDATED_PHOTO);
                 String updatedNote = data.getStringExtra(Constants.UPDATED_NOTE);
                 int position = data.getExtras().getInt("updated note id");
-
+                int updatedColor = data.getExtras().getInt(Constants.UPDATED_COLOR);
+                switch (updatedColor){
+                    case 0:
+                        selectedColor = getResources().getDrawable(R.drawable.note_border);
+                        break;
+                    case 1:
+                        selectedColor = getResources().getDrawable(R.drawable.note_border_purple);
+                        break;
+                    case 2:
+                        selectedColor = getResources().getDrawable(R.drawable.note_border_red);
+                        break;
+                }
                 Note note = mNotes.get(position);
                 if (note instanceof PhotoNote){
                     PhotoNote photoNote = (PhotoNote) note;
@@ -131,6 +141,7 @@ startActivityForResult(intent, ADD_NOTE);
                     mAdapter.notifyItemChanged(position);
                 }else{
                     note.setIdeaNote(updatedNote);
+                    note.setColor(selectedColor);
                     mAdapter.notifyItemChanged(position);
                 }
 
@@ -155,9 +166,6 @@ private void showNoteDetails(int position){
             intent = new Intent(this, DetailActivity.class);
             intent.putExtra("note id", position);
         }
-
-
-
 startActivityForResult(intent, EDIT_NOTE);
 }
 private void removeNote(final int position){
@@ -166,6 +174,9 @@ private void removeNote(final int position){
         public void onClick(DialogInterface dialogInterface, int i) {
             mNotes.remove(position);
             mAdapter.notifyItemRemoved(position);
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.barmej.notesapp", Context.MODE_PRIVATE);
+            HashSet<String> set = new HashSet(MainActivity.mNotes);
+            sharedPreferences.edit().putStringSet("notes", set).apply();
         }
     }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
         @Override
@@ -175,24 +186,5 @@ private void removeNote(final int position){
     }).create();
     alertDialog.show();
 }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        this.mMenu = menu;
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() == R.id.action_grid){
-//            mRecyclerView.setLayoutManager(mGridLayoutManager);
-//            item.setVisible(false);
-//            mMenu.findItem(R.id.action_list).setVisible(true);
-//        } else if(item.getItemId() == R.id.action_list){
-//            mRecyclerView.setLayoutManager(mListLayoutManager);
-//            item.setVisible(false);
-//            mMenu.findItem(R.id.action_grid).setVisible(true);
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
 }
